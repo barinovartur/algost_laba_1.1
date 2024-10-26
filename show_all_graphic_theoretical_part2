@@ -1,0 +1,46 @@
+from sympy import symbols, log
+from sympy.plotting import plot
+
+# Определяем переменную n
+n = symbols('n')
+
+# Диапазон n
+start = 1
+end = 50
+
+# График всех сортировок в среднем случае
+title = "Сортировки (Средний случай)"
+T_sel = 4 * n ** 2 + 7 * n + 1          # Сортировка выбором
+T_ins = 3 * n ** 2 + 4 * n + 1          # Сортировка вставками
+T_bub = 5 * n ** 2 - n - 2              # Сортировка пузырьком
+T_merg = 2 * n + log(n, 2) * (6 * n + 5) # Сортировка слиянием
+T_shel = n ** 1.5                        # Сортировка Шелла
+T_hib = n ** 1.25                       # Сортировка Шелла (Хиббарда)
+T_pra = n * log(2, n) ** 2              # Сортировка Шелла (Пратта)
+T_quick = 3 * n + 3 * n * log(n, 3) + 2   # Быстрая сортировка
+T_heap = n * log(n, 2)                   # Пирамидальная сортировка
+
+# Создание графиков
+p1 = plot(T_sel, (n, start, end), show=False, label="Сортировка выбором", xlabel="n", ylabel="T(n)", title=title)
+p2 = plot(T_ins, (n, start, end), show=False, label="Сортировка вставками")
+p3 = plot(T_bub, (n, start, end), show=False, label="Сортировка пузырьком")
+p4 = plot(T_merg, (n, start, end), show=False, label="Сортировка слиянием")
+p5 = plot(T_shel, (n, start, end), show=False, label="Сортировка Шелла")
+p6 = plot(T_hib, (n, start, end), show=False, label="Сортировка Шелла (Хиббарда)")
+p7 = plot(T_pra, (n, start, end), show=False, label="Сортировка Шелла (Пратта)")
+p8 = plot(T_quick, (n, start, end), show=False, label="Быстрая сортировка")
+p9 = plot(T_heap, (n, start, end), show=False, label="Пирамидальная сортировка")
+
+# Объединяем графики
+p1.extend(p2)
+p1.extend(p3)
+p1.extend(p4)
+p1.extend(p5)
+p1.extend(p6)
+p1.extend(p7)
+p1.extend(p8)
+p1.extend(p9)
+p1.legend = True
+
+# Отображение графика
+p1.show()
