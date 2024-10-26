@@ -1,0 +1,135 @@
+from sympy import symbols, log
+from sympy.plotting import plot
+
+# Диапазон для n
+start_range = 1
+end_range = 50
+# Определяем переменную n
+n = symbols('n')
+# Графики для каждой сортировки (все случаи на одном изображении)
+
+# Selection Sort
+selection_title = "Сортировка выбором"
+selection_worst = 5 * n ** 2 + 3 * n + 1
+selection_best = 3 * n ** 2 + 4 * n + 1
+selection_average = 4 * n ** 2 + 7 * n + 1
+selection_plot = plot(selection_worst, (n, start_range, end_range), show=False, label="Худший случай", xlabel="n", ylabel="T(n)", title=selection_title)
+selection_plot2 = plot(selection_best, (n, start_range, end_range), show=False, label="Лучший случай")
+selection_plot3 = plot(selection_average, (n, start_range, end_range), show=False, label="Средний случай")
+
+selection_plot.extend(selection_plot2)
+selection_plot.extend(selection_plot3)
+selection_plot.legend = True
+selection_plot.show()  # Отображение графика
+
+# Insertion Sort
+insertion_title = "Сортировка вставками"
+insertion_worst = 3 * n ** 2 + 7 * n + 1
+insertion_best = 6 * n + 1
+insertion_average = 3 * n ** 2 + 4 * n + 1
+insertion_plot = plot(insertion_worst, (n, start_range, end_range), show=False, label="Худший случай", xlabel="n", ylabel="T(n)", title=insertion_title)
+insertion_plot2 = plot(insertion_best, (n, start_range, end_range), show=False, label="Лучший случай")
+insertion_plot3 = plot(insertion_average, (n, start_range, end_range), show=False, label="Средний случай")
+
+insertion_plot.extend(insertion_plot2)
+insertion_plot.extend(insertion_plot3)
+insertion_plot.legend = True
+insertion_plot.show()  # Отображение графика
+
+# Bubble Sort
+bubble_title = "Сортировка пузырьком"
+bubble_worst = 7 * n ** 2 - 10 * n + 5
+bubble_best = 3 * n + 3
+bubble_average = 5 * n ** 2 - n - 2
+bubble_plot = plot(bubble_worst, (n, start_range, end_range), show=False, label="Худший случай", xlabel="n", ylabel="T(n)", title=bubble_title)
+bubble_plot2 = plot(bubble_best, (n, start_range, end_range), show=False, label="Лучший случай")
+bubble_plot3 = plot(bubble_average, (n, start_range, end_range), show=False, label="Средний случай")
+
+bubble_plot.extend(bubble_plot2)
+bubble_plot.extend(bubble_plot3)
+bubble_plot.legend = True
+bubble_plot.show()  # Отображение графика
+
+# Merge Sort
+merge_title = "Сортировка слиянием"
+merge_worst = 2 * n + log(n, 2) * (6 * n + 5)
+merge_best = 2 * n + log(n, 2) * (6 * n + 5)
+merge_average = 2 * n + log(n, 2) * (6 * n + 5)
+merge_plot = plot(merge_worst, (n, start_range, end_range), show=False, label="Худший случай", xlabel="n", ylabel="T(n)", title=merge_title)
+merge_plot2 = plot(merge_best, (n, start_range, end_range), show=False, label="Лучший случай")
+merge_plot3 = plot(merge_average, (n, start_range, end_range), show=False, label="Средний случай")
+
+merge_plot.extend(merge_plot2)
+merge_plot.extend(merge_plot3)
+merge_plot.legend = True
+merge_plot.show()  # Отображение графика
+
+# Shell Sort
+shell_title = "Сортировка Шелла"
+shell_worst = n ** 2
+shell_best = n ** 1.667
+shell_average = n ** 1.5
+shell_plot = plot(shell_worst, (n, start_range, end_range), show=False, label="Худший случай", xlabel="n", ylabel="T(n)", title=shell_title)
+shell_plot2 = plot(shell_best, (n, start_range, end_range), show=False, label="Лучший случай")
+shell_plot3 = plot(shell_average, (n, start_range, end_range), show=False, label="Средний случай")
+
+shell_plot.extend(shell_plot2)
+shell_plot.extend(shell_plot3)
+shell_plot.legend = True
+shell_plot.show()  # Отображение графика
+
+# Shell Sort (Hibbard)
+hibbard_title = "Сортировка Шелла (Хиббарда)"
+hibbard_worst = n ** 2
+hibbard_best = n * log(n, 2)
+hibbard_average = n ** 1.25
+hibbard_plot = plot(hibbard_worst, (n, start_range, end_range), show=False, label="Худший случай", xlabel="n", ylabel="T(n)", title=hibbard_title)
+hibbard_plot2 = plot(hibbard_best, (n, start_range, end_range), show=False, label="Лучший случай")
+hibbard_plot3 = plot(hibbard_average, (n, start_range, end_range), show=False, label="Средний случай")
+
+hibbard_plot.extend(hibbard_plot2)
+hibbard_plot.extend(hibbard_plot3)
+hibbard_plot.legend = True
+hibbard_plot.show()  # Отображение графика
+
+# Shell Sort (Pratt)
+pratt_title = "Сортировка Шелла (Пратта)"
+pratt_worst = n * log(2, n) ** 2
+pratt_best = n
+pratt_average = n * log(2, n) ** 2
+pratt_plot = plot(pratt_worst, (n, start_range, end_range), show=False, label="Худший случай", xlabel="n", ylabel="T(n)", title=pratt_title)
+pratt_plot2 = plot(pratt_best, (n, start_range, end_range), show=False, label="Лучший случай")
+pratt_plot3 = plot(pratt_average, (n, start_range, end_range), show=False, label="Средний случай")
+
+pratt_plot.extend(pratt_plot2)
+pratt_plot.extend(pratt_plot3)
+pratt_plot.legend = True
+pratt_plot.show()  # Отображение графика
+
+# Quick Sort
+quick_title = "Быстрая сортировка"
+quick_worst = n ** 2 + 2 * n
+quick_best = n + 2 * n * log(n, 2) - log(n, 2)
+quick_average = 3 * n + 3 * n * log(n, 3) + 2
+quick_plot = plot(quick_worst, (n, start_range, end_range), show=False, label="Худший случай", xlabel="n", ylabel="T(n)", title=quick_title)
+quick_plot2 = plot(quick_best, (n, start_range, end_range), show=False, label="Лучший случай")
+quick_plot3 = plot(quick_average, (n, start_range, end_range), show=False, label="Средний случай")
+
+quick_plot.extend(quick_plot2)
+quick_plot.extend(quick_plot3)
+quick_plot.legend = True
+quick_plot.show()  # Отображение графика
+
+# Heap Sort
+heap_title = "Пирамидальная сортировка"
+heap_worst = n * log(n, 2)
+heap_best = n * log(n, 2)
+heap_average = n * log(n, 2)
+heap_plot = plot(heap_worst, (n, start_range, end_range), show=False, label="Худший случай", xlabel="n", ylabel="T(n)", title=heap_title)
+heap_plot2 = plot(heap_best, (n, start_range, end_range), show=False, label="Лучший случай")
+heap_plot3 = plot(heap_average, (n, start_range, end_range), show=False, label="Средний случай")
+
+heap_plot.extend(heap_plot2)
+heap_plot.extend(heap_plot3)
+heap_plot.legend = True
+heap_plot.show()  # Отображение графика
