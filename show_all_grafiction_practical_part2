@@ -1,0 +1,68 @@
+import matplotlib.pyplot as plt
+import pandas as pd
+
+# Чтение данных из файла DATA.txt с удалением текста " сек" из значений времени
+def read_data(filename):
+    # Читаем файл с учетом разделителя ", " и заголовков
+    data = pd.read_csv(filename, sep=", ", engine="python",
+                       names=["Тип сортировки", "Тип массива", "Количество элементов", "Время выполнения (сек)"])
+
+    # Удаляем слово " сек" и преобразуем столбец "Время выполнения (сек)" в числовой формат
+    data["Время выполнения (сек)"] = pd.to_numeric(data["Время выполнения (сек)"].str.replace(" сек", ""),
+                                                   errors="coerce")
+
+    return data
+
+# Построение графиков с фиксированной осью Y и X
+def plot_sort_times(data):
+    # Фильтруем данные для случайного заполнения массива
+    random_data = data[data["Тип массива"] == "Случайный"]
+    unique_sorts = random_data["Тип сортировки"].unique()
+
+    # Определяем цвета и маркеры для каждой сортировки
+    sort_styles = {
+        "Сортировка выбором": {"color": "blue", "marker": "o"},
+        "Сортировка вставками": {"color": "green", "marker": "s"},
+        "Сортировка пузырьком": {"color": "red", "marker": "D"},
+        "Сортировка слиянием": {"color": "purple", "marker": "x"},
+        "Сортировка Шелла": {"color": "orange", "marker": "^"},
+        "Быстрая сортировка": {"color": "cyan", "marker": "v"},
+        "Пирамидальная сортировка": {"color": "magenta", "marker": "<"},
+        # Добавьте другие сортировки и их стили по мере необходимости
+    }
+
+    # Задаем фиксированные значения по оси X
+    x_ticks = [1000, 10000, 20000, 30000, 40000, 50000, 60000, 70000, 80000, 90000, 100000]
+
+    plt.figure(figsize=(12, 8))  # Создаем одно общее окно для всех сортировок
+
+    for sort_type in unique_sorts:
+        subset = random_data[random_data["Тип сортировки"] == sort_type]
+        sizes = subset["Количество элементов"]
+        times = subset["Время выполнения (сек)"]
+
+        # Отладка: Проверка, есть ли данные для графика
+        if sizes.empty or times.empty:
+            print(f"No data for sort: {sort_type}")
+            continue
+
+        # Устанавливаем стиль линии
+        style = sort_styles.get(sort_type, {"color": "black", "marker": "o"})  # Если сортировка не найдена, используем черный цвет
+        plt.plot(sizes, times, label=f"{sort_type}", marker=style["marker"],
+                 color=style["color"], linestyle='-', linewidth=1.5)
+
+    # Настройки графика
+    plt.title("Временная сложность сортировок (Случайное заполнение массива)")
+    plt.xlabel("Количество элементов")
+    plt.ylabel("Время выполнения (сек)")
+    plt.xticks(x_ticks)  # Устанавливаем фиксированные значения на оси X
+    plt.legend()
+    plt.grid(True)
+
+    # Отображаем график
+    plt.show()
+
+# Пример использования
+filename = "C:/Users/Comp/Desktop/DATA.txt"  # Путь к файлу с данными
+data = read_data(filename)
+plot_sort_times(data)
