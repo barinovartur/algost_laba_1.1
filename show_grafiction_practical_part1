@@ -1,0 +1,74 @@
+import matplotlib.pyplot as plt
+import pandas as pd
+
+
+# Чтение данных из файла DATA.txt с удалением текста " сек" из значений времени
+def read_data(filename):
+    # Читаем файл с учетом разделителя ", " и заголовков
+    data = pd.read_csv(filename, sep=", ", engine="python",
+                       names=["Тип сортировки", "Тип массива", "Количество элементов", "Время выполнения (сек)"])
+
+    # Удаляем слово " сек" и преобразуем столбец "Время выполнения (сек)" в числовой формат
+    data["Время выполнения (сек)"] = pd.to_numeric(data["Время выполнения (сек)"].str.replace(" сек", ""),
+                                                   errors="coerce")
+
+    return data
+
+
+# Построение графиков с фиксированной осью Y и X
+def plot_sort_times(data):
+    unique_sorts = data["Тип сортировки"].unique()
+    unique_arrays = data["Тип массива"].unique()
+
+    # Определим цвета и маркеры для каждого типа массива
+    array_styles = {
+        "Случайный": {"color": "blue", "marker": "o"},
+        "Почти отсортированный": {"color": "green", "marker": "s"},
+        "Отсортированный в обратном порядке": {"color": "red", "marker": "D"},
+        "Отсортированный": {"color": "purple", "marker": "x"}
+    }
+
+    # Задаем фиксированные значения по оси Y и X
+    x_ticks = [1000, 10000, 20000, 30000, 40000, 50000, 60000, 70000, 80000, 90000, 100000]
+
+    for sort_type in unique_sorts:
+        plt.figure(figsize=(12, 8))
+
+        # Построение графиков для каждого типа массива
+        for array_type in unique_arrays:
+            subset = data[(data["Тип сортировки"] == sort_type) & (data["Тип массива"] == array_type)]
+            sizes = subset["Количество элементов"]
+            times = subset["Время выполнения (сек)"]
+
+            # Отладка: Проверка, есть ли данные для графика
+            if sizes.empty or times.empty:
+                print(f"No data for sort: {sort_type}, array: {array_type}")
+                continue
+
+            # Получаем максимальное время выполнения для данной сортировки
+            max_time = times.max()
+
+            # Устанавливаем максимальное значение по оси Y
+            plt.ylim(0, max_time * 1.1)  # Устанавливаем верхнюю границу немного выше максимального времени
+
+            # Настройка стиля линии
+            style = array_styles.get(array_type, {})
+            plt.plot(sizes, times, label=f"{array_type}", marker=style["marker"],
+                     color=style["color"], linestyle='-', linewidth=1.5)
+
+        # Настройки графика
+        plt.title(f"{sort_type} - Временная сложность для разных типов массивов")
+        plt.xlabel("Количество элементов")
+        plt.ylabel("Время выполнения (сек)")
+        plt.xticks(x_ticks)  # Устанавливаем фиксированные значения на оси X
+        plt.legend()
+        plt.grid(True)
+
+        # Отображаем график
+        plt.show()
+
+
+# Пример использования
+filename = "C:/Users/Comp/Desktop/DATA.txt"  # Путь к файлу с данными
+data = read_data(filename)
+plot_sort_times(data)
