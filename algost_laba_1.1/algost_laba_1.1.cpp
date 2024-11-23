@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <vector>
 #include <algorithm>
 #include <chrono>
@@ -58,7 +58,7 @@ void selectionSort(vector<int>& arr) {
 
 // Функция сортировки вставками
 void insertionSort(vector<int>& arr) {
-    for (int i = 0; i < arr.size(); i++) {
+    for (int i = 1; i < arr.size(); i++) {
         int el = arr[i]; // Сохраняем текущий элемент
         // Сдвигаем элементы, которые больше текущего
         for (int j = i; j > 0 && arr[j - 1] > el; j--) {
@@ -82,8 +82,8 @@ void bubbleSort(vector<int>& arr) {
 }
 
 void merge(vector<int>& arr, int l, int m, int r) {
-    int n1 = m - l + 1;
-    int n2 = r - m;
+    int n1 = m - l + 1;//граница 1
+    int n2 = r - m;//граница 2
     vector<int> L(n1), R(n2);
     for (int i = 0; i < n1; ++i) {
         L[i] = arr[l + i];
@@ -203,29 +203,21 @@ void shellSort_Pratt(vector<int>& arr) {
 
 // Функция для разбиения массива на две части
 int partition(vector<int>& arr, int low, int high) {
-
     int pivot = arr[high]; // Определяем опорный элемент как последний элемент массива
-
-
     int i = (low - 1);
-
     for (int j = low; j <= high - 1; j++) {
-
-
         if (arr[j] <= pivot) {
             i++; // Увеличиваем индекс меньшего элемента
             // Обмен значений
             int tmp = arr[i];
             arr[i] = arr[j];
             arr[j] = tmp;
-
         }
     }
     // Меняем местами опорный элемент с элементом на позиции i + 1
     int tmp = arr[i + 1];
     arr[i + 1] = arr[high];
     arr[high] = tmp;
-
     return (i + 1); // Возвращаем индекс опорного элемента
 }
 
@@ -302,10 +294,18 @@ void runAndRecordSorts() {
     vector<int> sizes = { 1000, 10000, 20000, 30000, 40000, 50000, 60000, 70000, 80000, 90000, 100000 };
     vector<string> arrayTypes = { "Случайный", "Почти отсортированный", "Отсортированный в обратном порядке", "Отсортированный" };
     vector<void (*)(vector<int>&)> sortFunctions = {
+        selectionSort, insertionSort, bubbleSort,
+        [](vector<int>& arr) { mergeSort(arr, 0, arr.size() - 1); },
+        shellSort_Shell,
+        shellSort_Hibbard,
+        [](vector<int>& arr) { quickSort(arr, 0, arr.size() - 1); },
         heapSort
     };
     vector<string> sortNames = {
-      "Пирамидальная сортировка"
+        "Сортировка выбором", "Сортировка вставками", "Сортировка пузырьком",
+        "Сортировка слиянием", "Сортировка Шелла (последовательность Шелла)",
+        "Сортировка Шелла (последовательность Хиббарда)",
+        "Быстрая сортировка", "Пирамидальная сортировка"
     };
 
     // Создание и открытие текстового файла
